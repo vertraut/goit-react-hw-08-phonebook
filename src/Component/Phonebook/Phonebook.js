@@ -9,24 +9,21 @@ import s from './Phonebook.module.css';
 
 class Phonebook extends Component {
   state = {
-    contacts: [
-      {
-        name: 'Cat',
-        phone: '93-79-92',
-        id: 'id-1',
-      },
-      {
-        name: 'Dog',
-        phone: '26-74-69',
-        id: 'id-2',
-      },
-      {
-        name: 'Fox',
-        phone: '35-87-56',
-        id: 'id-3',
-      },
-    ],
+    contacts: [],
   };
+
+  componentDidMount() {
+    const localContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (localContacts) this.setState({ contacts: localContacts });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      console.log('Добавили или удалили контакт');
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
 
   stateContactsUpdate = newContacts => {
     this.setState({ contacts: newContacts });
