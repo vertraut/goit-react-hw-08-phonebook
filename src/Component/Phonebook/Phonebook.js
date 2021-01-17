@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Section from '../Section';
@@ -9,6 +9,15 @@ import s from './Phonebook.module.css';
 
 function Phonebook() {
   const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    const localContacts = JSON.parse(localStorage.getItem('contacts'));
+    if (localContacts) setContacts(localContacts);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   const addContact = (name, phone) => {
     const nameNormalized = name.toLowerCase();
@@ -21,8 +30,8 @@ function Phonebook() {
       return;
     }
 
-    setContacts([
-      ...contacts,
+    setContacts(prevState => [
+      ...prevState,
       {
         name: name,
         phone: phone,

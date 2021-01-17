@@ -37,7 +37,6 @@ export default function ContactsList({ contacts, stateContactsUpdate }) {
       </li>
     ));
   };
-  console.log(contacts.length);
   if (contacts.length <= 0) return <p>Contact list is empty</p>;
   const filteredContacts = filteredList();
   return (
