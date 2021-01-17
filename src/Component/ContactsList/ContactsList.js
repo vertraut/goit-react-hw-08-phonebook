@@ -1,56 +1,61 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 
 import FilterField from '../FilterField';
 
 import s from './ContactsList.module.css';
 
-export default class ContactsList extends Component {
-  state = { filter: '' };
+export default function ContactsList({ contacts, stateContactsUpdate }) {
+  const [filter, setFilter] = useState('');
 
-  updateState = filterValue => {
-    this.setState({ filter: filterValue.toLowerCase() });
+  const updateState = filterValue => {
+    setFilter(filterValue.toLowerCase().trim());
   };
 
-  filteredList = () => {
-    const contacts = this.props.contacts;
-    if (contacts < 0) return <p>Contact list is empty</p>;
-    return contacts.filter(({ name }) => {
+  const filteredList = () => {
+    const filtered = contacts.filter(({ name }) => {
       const nameNormalized = name.toLowerCase();
-      return nameNormalized.includes(this.state.filter);
+
+      return nameNormalized.includes(filter);
     });
+
+    return filtered.length > 0 ? filtered : false;
   };
 
-  deleteContact = ({ currentTarget }) => {
-    const contacts = this.props.contacts;
-
-    this.props.stateContactsUpdate(
+  const deleteContact = ({ currentTarget }) => {
+    stateContactsUpdate(
       contacts.filter(contact => contact.id !== currentTarget.id),
     );
   };
 
-  render() {
-    if (this.props.contacts.length <= 0) return <p>Contact list is empty</p>;
-    const contacts = this.filteredList();
-    return (
-      <div>
-        {this.props.contacts.length > 1 && (
-          <div>
-            <p>Find contact by name</p>
-            <FilterField updateState={this.updateState} />
-          </div>
-        )}
+  const filteredContactsShow = filteredContacts => {
+    return filteredContacts.map(({ id, name, phone }) => (
+      <li key={id} className={s.Item}>
+        {name}: {phone}
+        <button id={id} onClick={deleteContact} className={s.Button}>
+          Delete
+        </button>
+      </li>
+    ));
+  };
+  console.log(contacts.length);
+  if (contacts.length <= 0) return <p>Contact list is empty</p>;
+  const filteredContacts = filteredList();
+  return (
+    <div>
+      {contacts.length > 1 && (
+        <div>
+          <p>Find contact by name</p>
+          <FilterField updateState={updateState} />
+        </div>
+      )}
 
-        <ul>
-          {contacts.map(({ id, name, phone }) => (
-            <li key={id} className={s.Item}>
-              {name}: {phone}
-              <button id={id} onClick={this.deleteContact} className={s.Button}>
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+      <ul>
+        {filteredContacts ? (
+          filteredContactsShow(filteredContacts)
+        ) : (
+          <p>По вашему запросу ничего не найдено!</p>
+        )}
+      </ul>
+    </div>
+  );
 }
