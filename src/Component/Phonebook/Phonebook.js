@@ -1,23 +1,10 @@
-import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
+import useLocalStorage from '../../hooks/useLocalStorage';
 import Section from '../Section';
 import Form from '../Form';
 import ContactsList from '../ContactsList';
 
 import s from './Phonebook.module.css';
-
-const useLocalStorage = (key, defaultValue) => {
-  const [state, setState] = useState(
-    () => JSON.parse(window.localStorage.getItem(key)) ?? defaultValue,
-  );
-
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
-  }, [key, state]);
-
-  return [state, setState];
-};
 
 function Phonebook() {
   const [contacts, setContacts] = useLocalStorage('contacts', []);
