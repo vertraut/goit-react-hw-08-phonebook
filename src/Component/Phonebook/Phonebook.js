@@ -7,17 +7,20 @@ import ContactsList from '../ContactsList';
 
 import s from './Phonebook.module.css';
 
+const useLocalStorage = (key, defaultValue) => {
+  const [state, setState] = useState(
+    () => JSON.parse(window.localStorage.getItem(key)) ?? defaultValue,
+  );
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [key, state]);
+
+  return [state, setState];
+};
+
 function Phonebook() {
-  const [contacts, setContacts] = useState([]);
-
-  useEffect(() => {
-    const localContacts = JSON.parse(localStorage.getItem('contacts'));
-    if (localContacts) setContacts(localContacts);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
 
   const addContact = (name, phone) => {
     const nameNormalized = name.toLowerCase();
