@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import * as actions from '../../redux/actions';
+import { connect } from 'react-redux';
 
 import FilterField from '../FilterField';
 
 import s from './ContactsList.module.css';
 
-export default function ContactsList({ contacts, deleteContact }) {
-  const [filter, setFilter] = useState('');
+function ContactsList({ contacts, deleteContact, filter, updateFilter }) {
+  //onst [filter, setFilter] = useState('');
 
-  const updateState = filterValue => {
-    setFilter(filterValue.toLowerCase().trim());
-  };
+  // const updateState = filterValue => {
+  //   setFilter(filterValue.toLowerCase().trim());
+  // };
 
   const filteredList = () => {
     const filtered = contacts.filter(({ name }) => {
@@ -38,7 +39,7 @@ export default function ContactsList({ contacts, deleteContact }) {
       {contacts.length > 1 && (
         <div>
           <p>Find contact by name</p>
-          <FilterField updateState={updateState} />
+          <FilterField updateFilter={updateFilter} />
         </div>
       )}
 
@@ -52,3 +53,15 @@ export default function ContactsList({ contacts, deleteContact }) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  contacts: state.contacts,
+  filter: state.filter,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateFilter: value => dispatch(actions.filterContact(value)),
+  deleteContact: value => dispatch(actions.deleteContact(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);

@@ -1,5 +1,6 @@
 import { createStore } from 'redux';
 import actions from './actionsTypes';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const initialState = {
   contacts: [
@@ -32,11 +33,13 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         contacts: state.contacts.filter(contact => contact.id !== payload),
       };
+    case actions.UPDATE_FILTER:
+      return { ...state, filter: payload };
     default:
       return state;
   }
 };
 
-const store = createStore(reducer);
+const store = createStore(reducer, composeWithDevTools());
 
 export default store;

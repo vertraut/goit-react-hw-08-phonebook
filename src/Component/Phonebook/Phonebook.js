@@ -7,7 +7,7 @@ import * as actions from '../../redux/actions';
 
 import s from './Phonebook.module.css';
 
-function Phonebook({ contacts, addContact, deleteContact }) {
+function Phonebook({ contacts, addContact }) {
   const checkContact = contact => {
     const nameNormalized = contact.name.toLowerCase();
 
@@ -27,7 +27,8 @@ function Phonebook({ contacts, addContact, deleteContact }) {
       <Section title={'Phonebook'}>
         <Form addContact={checkContact} />
         <Section title={'Contacts'}>
-          <ContactsList contacts={contacts} deleteContact={deleteContact} />
+          <ContactsList />
+          {/* contacts={contacts} deleteContact={deleteContact} */}
         </Section>
       </Section>
     </div>
@@ -40,7 +41,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addContact: item => dispatch(actions.addContact(item)),
-  deleteContact: item => dispatch(actions.deleteContact(item)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Phonebook);
