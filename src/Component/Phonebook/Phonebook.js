@@ -8,38 +8,24 @@ import * as actions from '../../redux/actions';
 import s from './Phonebook.module.css';
 
 function Phonebook({ contacts, addContact, deleteContact }) {
-  // const [contacts, setContacts] = useLocalStorage('contacts', []);
+  const checkContact = contact => {
+    const nameNormalized = contact.name.toLowerCase();
 
-  // const addContact = (name, phone) => {
-  //   const nameNormalized = name.toLowerCase();
-
-  //   const dublicateContactByName = contacts.find(
-  //     contact => contact.name.toLowerCase() === nameNormalized,
-  //   );
-  //   if (dublicateContactByName) {
-  //     alert(`${dublicateContactByName.name} is already in contacts.`);
-  //     return;
-  //   }
-
-  //   setContacts(prevState => [
-  //     ...prevState,
-  //     {
-  //       name: name,
-  //       phone: phone,
-  //       id: uuidv4(),
-  //     },
-  //   ]);
-  // };
-
-  // const deleteContact = ({ currentTarget }) => {
-  //   setContacts(contacts.filter(contact => contact.id !== currentTarget.id));
-  //   console.log('удален');
-  // };
+    const dublicateContactByName = contacts.find(
+      contact => contact.name.toLowerCase() === nameNormalized,
+    );
+    if (dublicateContactByName) {
+      alert(`${dublicateContactByName.name} is already in contacts.`);
+      return false; //возвращаем false в форму, чтобы там не очищались поля
+    }
+    addContact(contact);
+    return true; //все хорошо, поля формы можно очистить
+  };
 
   return (
     <div className={s.Phonebook}>
       <Section title={'Phonebook'}>
-        <Form addContact={addContact} />
+        <Form addContact={checkContact} />
         <Section title={'Contacts'}>
           <ContactsList contacts={contacts} deleteContact={deleteContact} />
         </Section>

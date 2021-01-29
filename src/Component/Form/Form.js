@@ -22,8 +22,12 @@ export default function Form({ addContact }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addContact({ id: uuidv4(), name: name.trim(), phone: phone.trim() });
-    resetState();
+    const result = addContact({
+      id: uuidv4(),
+      name: name.trim(),
+      phone: phone.trim(),
+    });
+    result && resetState();
   };
 
   return (

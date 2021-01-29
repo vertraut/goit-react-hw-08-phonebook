@@ -4,7 +4,7 @@ import actions from './actionsTypes';
 const initialState = {
   contacts: [
     {
-      name: 'Vadym',
+      name: 'Вадим',
       phone: 'phone',
       id: '1',
     },
@@ -19,6 +19,7 @@ const initialState = {
       id: '3',
     },
   ],
+  filter: '',
 };
 
 const reducer = (state = initialState, { type, payload }) => {
