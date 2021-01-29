@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import Section from '../Section';
 import Form from '../Form';
 import ContactsList from '../ContactsList';
-import * as actions from '../../redux/actions';
+import * as actions from '../../redux/contacts/contacts-actions';
 
 import s from './Phonebook.module.css';
 
-function Phonebook({ contacts, addContact }) {
+function Phonebook({ items, addContact }) {
   const checkContact = contact => {
     const nameNormalized = contact.name.toLowerCase();
 
-    const dublicateContactByName = contacts.find(
+    const dublicateContactByName = items.find(
       contact => contact.name.toLowerCase() === nameNormalized,
     );
     if (dublicateContactByName) {
@@ -28,7 +28,6 @@ function Phonebook({ contacts, addContact }) {
         <Form addContact={checkContact} />
         <Section title={'Contacts'}>
           <ContactsList />
-          {/* contacts={contacts} deleteContact={deleteContact} */}
         </Section>
       </Section>
     </div>
@@ -36,7 +35,7 @@ function Phonebook({ contacts, addContact }) {
 }
 
 const mapStateToProps = state => ({
-  contacts: state.contacts,
+  items: state.contacts.items,
 });
 
 const mapDispatchToProps = dispatch => ({

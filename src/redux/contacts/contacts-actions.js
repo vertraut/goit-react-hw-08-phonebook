@@ -1,4 +1,4 @@
-import actions from './actionsTypes';
+import actions from './contacts-actions-types';
 
 export const addContact = value => ({
   type: actions.ADD_CONTACT,
@@ -10,7 +10,7 @@ export const deleteContact = value => ({
   payload: value.target.id,
 });
 
-export const filterContact = value => ({
+export const updateFilter = value => ({
   type: actions.UPDATE_FILTER,
   payload: value,
 });

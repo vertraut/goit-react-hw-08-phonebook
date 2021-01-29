@@ -1,19 +1,15 @@
-import * as actions from '../../redux/actions';
+import * as actions from '../../redux/contacts/contacts-actions';
 import { connect } from 'react-redux';
 
 import FilterField from '../FilterField';
 
 import s from './ContactsList.module.css';
 
-function ContactsList({ contacts, deleteContact, filter, updateFilter }) {
-  //onst [filter, setFilter] = useState('');
-
-  // const updateState = filterValue => {
-  //   setFilter(filterValue.toLowerCase().trim());
-  // };
-
+function ContactsList({ items, filter, deleteContact, updateFilter }) {
   const filteredList = () => {
-    const filtered = contacts.filter(({ name }) => {
+    if (items.length === 0) return; //если нет контактов, выходим
+
+    const filtered = items.filter(({ name }) => {
       const nameNormalized = name.toLowerCase();
 
       return nameNormalized.includes(filter);
@@ -32,11 +28,11 @@ function ContactsList({ contacts, deleteContact, filter, updateFilter }) {
       </li>
     ));
   };
-  if (contacts.length <= 0) return <p>Contact list is empty</p>;
+  if (items.length <= 0) return <p>Contact list is empty</p>;
   const filteredContacts = filteredList();
   return (
     <div>
-      {contacts.length > 1 && (
+      {items.length > 0 && (
         <div>
           <p>Find contact by name</p>
           <FilterField updateFilter={updateFilter} />
@@ -54,13 +50,15 @@ function ContactsList({ contacts, deleteContact, filter, updateFilter }) {
   );
 }
 
-const mapStateToProps = state => ({
-  contacts: state.contacts,
-  filter: state.filter,
-});
+const mapStateToProps = state => {
+  return {
+    items: state.contacts.items,
+    filter: state.contacts.filter,
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
-  updateFilter: value => dispatch(actions.filterContact(value)),
+  updateFilter: value => dispatch(actions.updateFilter(value)),
   deleteContact: value => dispatch(actions.deleteContact(value)),
 });
 
