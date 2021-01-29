@@ -4,7 +4,7 @@ import FilterField from '../FilterField';
 
 import s from './ContactsList.module.css';
 
-export default function ContactsList({ contacts, stateContactsUpdate }) {
+export default function ContactsList({ contacts, deleteContact }) {
   const [filter, setFilter] = useState('');
 
   const updateState = filterValue => {
@@ -19,12 +19,6 @@ export default function ContactsList({ contacts, stateContactsUpdate }) {
     });
 
     return filtered.length > 0 ? filtered : false;
-  };
-
-  const deleteContact = ({ currentTarget }) => {
-    stateContactsUpdate(
-      contacts.filter(contact => contact.id !== currentTarget.id),
-    );
   };
 
   const filteredContactsShow = filteredContacts => {

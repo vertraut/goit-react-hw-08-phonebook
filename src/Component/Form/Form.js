@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import s from './Form.module.css';
 export default function Form({ addContact }) {
@@ -21,7 +22,7 @@ export default function Form({ addContact }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addContact(name.trim(), phone.trim());
+    addContact({ id: uuidv4(), name: name.trim(), phone: phone.trim() });
     resetState();
   };
 
