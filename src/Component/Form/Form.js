@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import { addContact } from '../../redux/contacts/contacts-actions';
 import { v4 as uuidv4 } from 'uuid';
 
 import s from './Form.module.css';
-export default function Form({ addContact }) {
+
+function Form({ addContact, items }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
 
@@ -22,12 +25,25 @@ export default function Form({ addContact }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const result = addContact({
+    checkContact({
       id: uuidv4(),
       name: name.trim(),
       phone: phone.trim(),
     });
-    result && resetState();
+  };
+
+  const checkContact = contact => {
+    const nameNormalized = contact.name.toLowerCase();
+
+    const dublicateContactByName = items.find(
+      contact => contact.name.toLowerCase() === nameNormalized,
+    );
+    if (dublicateContactByName) {
+      alert(`${dublicateContactByName.name} is already in contacts.`);
+      return;
+    }
+    addContact(contact);
+    resetState();
   };
 
   return (
@@ -58,3 +74,13 @@ export default function Form({ addContact }) {
     </form>
   );
 }
+
+const mapStateToProps = state => ({
+  items: state.contacts.items,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addContact: item => dispatch(addContact(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

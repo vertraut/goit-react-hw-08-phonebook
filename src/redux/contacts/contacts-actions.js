@@ -5,9 +5,9 @@ export const addContact = value => ({
   payload: value,
 });
 
-export const deleteContact = value => ({
+export const deleteContact = id => ({
   type: actions.DELETE_CONTACT,
-  payload: value.target.id,
+  payload: id,
 });
 
 export const updateFilter = value => ({
