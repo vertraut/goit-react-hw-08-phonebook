@@ -26,22 +26,27 @@ function Form({ addContact, items }) {
   const handleSubmit = e => {
     e.preventDefault();
     checkContact({
-      id: uuidv4(),
       name: name.trim(),
       phone: phone.trim(),
     });
   };
 
   const checkContact = contact => {
-    const nameNormalized = contact.name.toLowerCase();
+    const { name, phone } = contact;
+    if (name === '' || phone === '') {
+      alert('Please fill in the form!');
+      return;
+    }
+    const nameNormalized = name.toLowerCase();
 
     const dublicateContactByName = items.find(
-      contact => contact.name.toLowerCase() === nameNormalized,
+      ({ name }) => name.toLowerCase() === nameNormalized,
     );
     if (dublicateContactByName) {
       alert(`${dublicateContactByName.name} is already in contacts.`);
       return;
     }
+    contact.id = uuidv4(); //присваеваем ID для нового контакта
     addContact(contact);
     resetState();
   };
