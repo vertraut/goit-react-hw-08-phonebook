@@ -1,18 +1,27 @@
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/contacts/contacts-actions';
-import { connect } from 'react-redux';
-
 import FilterField from '../FilterField';
-
+import {
+  getItems,
+  getFilterValue,
+} from '../../redux/contacts/contacts-selectors';
 import s from './ContactsList.module.css';
 
-function ContactsList({ items, filter, deleteContact, updateFilter }) {
+function ContactsList() {
+  const items = useSelector(getItems);
+  const filter = useSelector(getFilterValue);
+
+  const dispatch = useDispatch();
+
+  const deleteContact = e => dispatch(actions.deleteContact(e.target.id));
+
   const filteredList = () => {
     if (items.length === 0) return; //если нет контактов, выходим
 
     const filtered = items.filter(({ name }) => {
       const nameNormalized = name.toLowerCase();
 
-      return nameNormalized.includes(filter);
+      return nameNormalized.includes(filter.trim());
     });
 
     return filtered.length > 0 ? filtered : false;
@@ -35,7 +44,7 @@ function ContactsList({ items, filter, deleteContact, updateFilter }) {
       {items.length > 0 && (
         <div>
           <p>Find contact by name</p>
-          <FilterField updateFilter={updateFilter} />
+          <FilterField />
         </div>
       )}
 
@@ -50,16 +59,4 @@ function ContactsList({ items, filter, deleteContact, updateFilter }) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    items: state.contacts.items,
-    filter: state.contacts.filter,
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  updateFilter: value => dispatch(actions.updateFilter(value)),
-  deleteContact: e => dispatch(actions.deleteContact(e.target.id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
+export default ContactsList;
