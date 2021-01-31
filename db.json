@@ -1,0 +1,19 @@
+{
+  "contacts": [
+    {
+      "name": "Вадим",
+      "phone": "phone",
+      "id": "1"
+    },
+    {
+      "name": "Kolya",
+      "phone": "telephone",
+      "id": "2"
+    },
+    {
+      "name": "Vasya",
+      "phone": "netu+",
+      "id": "3"
+    }
+  ]
+}
