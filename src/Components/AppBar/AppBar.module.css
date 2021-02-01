@@ -1,0 +1,7 @@
+.appbar {
+  display: flex;
+}
+
+.appbar div:not(:last-child) {
+  margin-right: 20px;
+}
