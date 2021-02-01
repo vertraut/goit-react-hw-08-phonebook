@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import FilterField from '../FilterField';
 import {
   getItems,
-  getFilterValue,
   getLoading,
   getError,
   getFilteredContacts,
