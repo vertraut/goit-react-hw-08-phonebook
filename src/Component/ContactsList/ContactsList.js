@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import * as actions from '../../redux/contacts/contacts-actions';
 import FilterField from '../FilterField';
 import {
   getItems,
   getFilterValue,
-} from '../../redux/contacts/contacts-selectors';
-import * as contactsOperations from '../../redux/contacts/contacts-operations';
+  getLoading,
+  getError,
+} from 'redux/contacts/contacts-selectors';
+import * as contactsOperations from 'redux/contacts/contacts-operations';
 import s from './ContactsList.module.css';
 
 function ContactsList() {
   const items = useSelector(getItems);
   const filter = useSelector(getFilterValue);
+  const loading = useSelector(getLoading);
+  const error = useSelector(getError);
 
   const dispatch = useDispatch();
 
@@ -19,7 +22,8 @@ function ContactsList() {
     dispatch(contactsOperations.fetchContacts());
   }, [dispatch]);
 
-  const deleteContact = e => dispatch(actions.deleteContact(e.target.id));
+  const deleteContact = e =>
+    dispatch(contactsOperations.deleteContact(e.target.id));
 
   const filteredList = () => {
     if (items.length === 0) return; //если нет контактов, выходим
@@ -33,6 +37,10 @@ function ContactsList() {
     return filtered.length > 0 ? filtered : false;
   };
 
+  if (error) {
+    alert(error);
+  }
+
   const filteredContactsShow = filteredContacts => {
     return filteredContacts.map(({ id, name, phone }) => (
       <li key={id} className={s.Item}>
@@ -43,8 +51,14 @@ function ContactsList() {
       </li>
     ));
   };
+
+  if (loading) {
+    return <div>Секунду...</div>;
+  }
+
   if (items.length <= 0) return <p>Contact list is empty</p>;
   const filteredContacts = filteredList();
+
   return (
     <div>
       {items.length > 0 && (

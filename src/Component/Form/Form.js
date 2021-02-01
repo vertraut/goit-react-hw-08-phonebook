@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import { addContact } from '../../redux/contacts/contacts-actions';
-import { v4 as uuidv4 } from 'uuid';
+import { addContact } from '../../redux/contacts/contacts-operations';
 
 import s from './Form.module.css';
 
@@ -46,7 +45,6 @@ function Form({ addContact, items }) {
       alert(`${dublicateContactByName.name} is already in contacts.`);
       return;
     }
-    contact.id = uuidv4(); //присваеваем ID для нового контакта
     addContact(contact);
     resetState();
   };
