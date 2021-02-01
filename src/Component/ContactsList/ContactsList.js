@@ -6,15 +6,16 @@ import {
   getFilterValue,
   getLoading,
   getError,
+  getFilteredContacts,
 } from 'redux/contacts/contacts-selectors';
 import * as contactsOperations from 'redux/contacts/contacts-operations';
 import s from './ContactsList.module.css';
 
 function ContactsList() {
   const items = useSelector(getItems);
-  const filter = useSelector(getFilterValue);
   const loading = useSelector(getLoading);
   const error = useSelector(getError);
+  const filtered = useSelector(getFilteredContacts);
 
   const dispatch = useDispatch();
 
@@ -27,12 +28,6 @@ function ContactsList() {
 
   const filteredList = () => {
     if (items.length === 0) return; //если нет контактов, выходим
-
-    const filtered = items.filter(({ name }) => {
-      const nameNormalized = name.toLowerCase();
-
-      return nameNormalized.includes(filter.trim());
-    });
 
     return filtered.length > 0 ? filtered : false;
   };
