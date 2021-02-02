@@ -7,6 +7,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import PublicRoute from './Components/PublicRoute';
 import Container from './Components/Container';
 import { authOperations, authSelectors } from './redux/auth';
+import routes from './routes';
 
 import Loader from './Components/Loader';
 
@@ -32,21 +33,21 @@ function App() {
           <AppBar />
           <Switch>
             <Suspense fallback={<p>Загружаем...</p>}>
-              <PublicRoute exact path="/">
+              <PublicRoute exact path={routes.home}>
                 <HomeView />
               </PublicRoute>
-              <PublicRoute exact path="/register" restricted>
+              <PublicRoute exact path={routes.register} restricted>
                 <RegisterView />
               </PublicRoute>
               <PublicRoute
                 exact
-                path="/login"
-                redirectTo="/contacts"
+                path={routes.login}
+                redirectTo={routes.contacts}
                 restricted
               >
                 <LoginView />
               </PublicRoute>
-              <PrivateRoute path="/contacts" redirectTo="/login">
+              <PrivateRoute path={routes.contacts} redirectTo={routes.login}>
                 <ContactsView />
               </PrivateRoute>
             </Suspense>
@@ -58,12 +59,3 @@ function App() {
 }
 
 export default App;
-
-//  <AppBar />
-
-//       <Switch>
-//         <Route exact path="/" component={HomeView} />
-//         <Route path="/register" component={RegisterView} />
-//         <Route path="/login" component={LoginView} />
-//         <Route path="/contacts" component={ContactsView} />
-//       </Switch>
