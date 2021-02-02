@@ -1,7 +1,6 @@
 .appbar {
   display: flex;
-}
-
-.appbar div:not(:last-child) {
-  margin-right: 20px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #2a363b;
 }
