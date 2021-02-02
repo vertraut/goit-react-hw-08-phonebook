@@ -6,11 +6,11 @@ import s from './Form.module.css';
 
 function Form({ addContact, items }) {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
 
   const resetState = () => {
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   const handleInputChange = ({ currentTarget }) => {
@@ -19,20 +19,20 @@ function Form({ addContact, items }) {
       setName(value);
       return;
     }
-    setPhone(value);
+    setNumber(value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
     checkContact({
       name: name.trim(),
-      phone: phone.trim(),
+      number: number.trim(),
     });
   };
 
   const checkContact = contact => {
-    const { name, phone } = contact;
-    if (name === '' || phone === '') {
+    const { name, number } = contact;
+    if (name === '' || number === '') {
       alert('Please fill in the form!');
       return;
     }
@@ -65,8 +65,8 @@ function Form({ addContact, items }) {
         Phone number
         <input
           type="tel"
-          name="phone"
-          value={phone}
+          name="number"
+          value={number}
           onChange={handleInputChange}
           className={s.Input}
         />

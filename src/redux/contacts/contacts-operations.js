@@ -1,18 +1,20 @@
-import * as contactShelfAPI from 'services/contactshelf-api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import axios from 'axios';
 
 export const fetchContacts = createAsyncThunk(
   'phonebook/fetchContacts',
   async () => {
-    const contacts = await contactShelfAPI.fetchContacts();
-    return contacts;
+    const { data } = await axios.get('/contacts');
+    return data;
   },
 );
 
 export const addContact = createAsyncThunk(
   'phonebook/addContact',
   async contact => {
-    const data = await contactShelfAPI.addContacts(contact);
+    console.log(contact);
+    const { data } = await axios.post('/contacts', contact);
     return data;
   },
 );
@@ -20,7 +22,7 @@ export const addContact = createAsyncThunk(
 export const deleteContact = createAsyncThunk(
   'phonebook/deleteContact',
   async id => {
-    await contactShelfAPI.deleteContact(id);
+    await axios.delete(`/contacts/${id}`);
     return id;
   },
 );

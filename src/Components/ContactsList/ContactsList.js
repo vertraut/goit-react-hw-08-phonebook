@@ -36,9 +36,9 @@ function ContactsList() {
   }
 
   const filteredContactsShow = filteredContacts => {
-    return filteredContacts.map(({ id, name, phone }) => (
+    return filteredContacts.map(({ id, name, number }) => (
       <li key={id} className={s.Item}>
-        {name}: {phone}
+        {name}: {number}
         <button id={id} onClick={deleteContact} className={s.Button}>
           Delete
         </button>

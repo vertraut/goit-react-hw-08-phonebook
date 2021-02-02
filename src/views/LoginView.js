@@ -39,6 +39,8 @@ export default function LoginView() {
   return (
     <div>
       <h1>Страница логина</h1>
+      <p>parol@parol.com</p>
+      <p>pass@pass.com</p>
 
       <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
         <label style={styles.label}>

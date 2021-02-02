@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 // import Phonebook from './Component/Phonebook';
 import AppBar from './Components/AppBar';
 import Container from './Components/Container';
-import { ContactsView, RegisterView, HomeView, LoginView } from './views/';
+import { ContactsView, RegisterView, LoginView, HomeView } from './views/';
 import { authOperations } from './redux/auth';
 
 function App() {
@@ -24,7 +24,6 @@ function App() {
         <Route path="/login" component={LoginView} />
         <Route path="/contacts" component={ContactsView} />
       </Switch>
-      {/* <Phonebook /> */}
     </Container>
   );
 }
