@@ -8,6 +8,8 @@ import { store, persistor } from './redux/store';
 import 'modern-normalize/modern-normalize.css';
 import './styles/base.css';
 
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
